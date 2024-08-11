@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/profil', [SalesController::class, 'show'])->name('profil');
 Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
 Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
@@ -31,3 +31,4 @@ Route::get('/customer/{customer}', [CustomerController::class, 'show'])->name('c
 Route::get('/customer/{customer}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
 Route::put('/customer/{customer}', [CustomerController::class, 'update'])->name('customer.update');
 Route::delete('/customer/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+Route::get('/home', [SalesController::class, 'barChart'])->name('home');

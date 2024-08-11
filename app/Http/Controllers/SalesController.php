@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Sales;
+use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {
@@ -14,7 +15,7 @@ class SalesController extends Controller
     public function index()
     {
         $sales = Sales::all();
-        return view('index', compact('sales'));
+        return view('home', compact('sales'));
     }
 
     /**
@@ -53,5 +54,24 @@ class SalesController extends Controller
         } else {
             return redirect()->route('sales.index')->with('error', 'Data tidak ditemukan.');
         }
+    }
+
+    public function barChart()
+    {
+        $idSales = Auth::id(); // Mengambil ID sales dari pengguna yang sedang login
+
+        // Ambil data customer berdasarkan ID sales
+        $sales = DB::table('customer')
+            ->selectRaw('MONTHNAME(tgl_gabung) as month, COUNT(*) as total')
+            ->where('id_sales', $idSales) // Filter berdasarkan ID sales
+            ->groupBy('month')
+            ->orderByRaw('MONTH(tgl_gabung)')
+            ->pluck('total', 'month');
+
+        return view('home', [
+            'sales' => $sales,
+            'months' => $sales->keys(),
+            'customerCounts' => $sales->values()
+        ]);
     }
 }
