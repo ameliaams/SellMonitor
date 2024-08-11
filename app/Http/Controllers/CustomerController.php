@@ -14,8 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customer = Customer::with(['sales', 'paketLayanan'])->get();
-        return view('customer.index', compact('customer'));
+        $customers = Customer::with(['sales', 'paketLayanan'])->get();
+        return view('customer', compact('customers'));
     }
 
     /**
@@ -25,7 +25,7 @@ class CustomerController extends Controller
     {
         $sales = Sales::all();
         $paketLayanan = PaketLayanan::all();
-        return view('customer.create', compact('sales', 'paketLayanan'));
+        return view('addCustomer', compact('sales', 'paketLayanan'));
     }
 
     /**

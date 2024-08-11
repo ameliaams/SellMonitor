@@ -9,12 +9,21 @@ use App\Models\Sales;
 class SalesController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $sales = Sales::all();
+        return view('index', compact('sales'));
+    }
+
+    /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        $sales = Sales::find($id);
-        return view('sales.detail', compact('sales'));
+        $sales = Auth::user();
+        return view('profil', ['sales' => $sales]);
     }
 
     /**
