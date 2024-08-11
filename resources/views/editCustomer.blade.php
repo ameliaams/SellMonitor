@@ -6,7 +6,7 @@
         <div class="col-md-10">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    {{ __('Tambah Customer Baru') }}
+                    {{ __('Edit Data Customer') }}
                     <a href="{{ route('customer.index') }}" class="btn btn-secondary">Kembali</a>
                 </div>
 
@@ -17,28 +17,30 @@
                     </div>
                     @endif
 
-                    <form method="POST" action="{{ route('customer.store') }}">
+                    <form method="POST" action="{{ route('customer.update', $customer->id) }}">
                         @csrf
+                        @method('PUT')
 
                         <div class="form-group">
                             <label for="nama_customer">Nama Customer</label>
-                            <input type="text" class="form-control" id="nama_customer" name="nama_customer" placeholder="Masukkan nama customer" required>
+                            <input type="text" class="form-control" id="nama_customer" name="nama_customer" value="{{ old('nama_customer', $customer->nama_customer) }}" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="nama_paket">Nama Paket</label>
-                            <select class="form-control" id="nama_paket" name="nama_paket" required>
+                            <label for="id_paket">Nama Paket</label>
+                            <select class="form-control" id="id_paket" name="id_paket" required>
                                 <option value="">Pilih Jenis Paket</option>
                                 @foreach ($paketLayanan as $paket)
-                                <option value="{{ $paket->id }}">{{ $paket->nama_paket }}</option>
+                                <option value="{{ $paket->id }}" {{ $paket->id == old('id_paket', $customer->id_paket) ? 'selected' : '' }}>
+                                    {{ $paket->nama_paket }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
 
-
                         <div class="form-group">
                             <label for="tgl_gabung">Tanggal Bergabung</label>
-                            <input type="date" class="form-control" id="tgl_gabung" name="tgl_gabung" required>
+                            <input type="date" class="form-control" id="tgl_gabung" name="tgl_gabung" value="{{ old('tgl_gabung', $customer->tgl_gabung) }}" readonly>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>

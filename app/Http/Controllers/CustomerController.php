@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Sales;
 use App\Models\PaketLayanan;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -14,7 +15,11 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['sales', 'paketLayanan'])->get();
+        $id_sales = Auth::user()->id;
+
+        $customers = Customer::with(['paketLayanan'])
+            ->where('id_sales', $id_sales)
+            ->get();
         return view('customer', compact('customers'));
     }
 
@@ -34,15 +39,23 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_sales' => 'required|exists:sales,id',
-            'id_paket' => 'required|exists:paket_layanan,id',
+            'nama_paket' => 'required|exists:paket_layanan,id',
             'nama_customer' => 'required|max:50',
             'tgl_gabung' => 'required|date',
         ]);
 
-        Customer::create($request->all());
+        $id_sales = auth()->user()->id;
+
+        Customer::create([
+            'id_sales' => $id_sales,
+            'id_paket' => $request->nama_paket,
+            'nama_customer' => $request->nama_customer,
+            'tgl_gabung' => $request->tgl_gabung,
+        ]);
+
         return redirect()->route('customer.index')->with('success', 'Data berhasil ditambah!');
     }
+
 
     /**
      * Display the specified resource.
@@ -59,7 +72,7 @@ class CustomerController extends Controller
     {
         $sales = Sales::all();
         $paketLayanan = PaketLayanan::all();
-        return view('customer.edit', compact('customer', 'sales', 'paketLayanan'));
+        return view('editCustomer', compact('customer', 'sales', 'paketLayanan'));
     }
 
     /**
@@ -68,12 +81,12 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $request->validate([
-            'id_sales' => 'required|exists:sales,id',
             'id_paket' => 'required|exists:paket_layanan,id',
             'nama_customer' => 'required|max:50',
             'tgl_gabung' => 'required|date',
         ]);
 
+        $customer->id_sales = $customer->id_sales;
         $customer->update($request->all());
 
         return redirect()->route('customer.index')->with('success', 'Data berhasil diubah!');

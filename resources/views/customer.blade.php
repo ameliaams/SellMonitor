@@ -25,15 +25,29 @@
                                 <th scope="col">Nama</th>
                                 <th scope="col">Tanggal Bergabung</th>
                                 <th scope="col">Jenis Paket</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($customers as $cust)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $customer->nama_customer }}</td>
-                                <td>{{ $customer->tgl_gabung }}</td>
-                                <td>{{ $customer->nama_paket }}</td>
+                                <td>{{ $cust->nama_customer }}</td>
+                                <td>{{ $cust->tgl_gabung }}</td>
+                                <td>{{ $cust->paketLayanan->nama_paket }}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a href="{{ route('customer.edit', $cust->id) }}" class="btn btn-warning me-2">Edit</a>
+
+                                        <form action="{{ route('customer.destroy', $cust->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    </div>
+                                </td>
+
+
                             </tr>
                             @endforeach
                         </tbody>
