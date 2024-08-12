@@ -14,7 +14,7 @@
                     </div>
                     @endif
 
-                    <canvas id="barChart" width="400" height="200"></canvas>
+                    <canvas id="barChart" style="max-height: 400px;"></canvas>
                 </div>
             </div>
         </div>
