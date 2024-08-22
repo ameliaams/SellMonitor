@@ -118,10 +118,10 @@
                         <a class="nav-link active" href="home">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('customer.index') }}">Data Customer</a>
+                        <a class="nav-link" href="{{ route('customers.index') }}">Data Customer</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profil') }}">Profil</a>
+                        <a class="nav-link" href="{{ route('profiles') }}">Profil</a>
                     </li>
                 </ul>
             </aside>

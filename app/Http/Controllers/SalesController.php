@@ -9,13 +9,18 @@ use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $sales = Sales::all();
-        return view('home', compact('sales'));
+        $salesId = Auth::id();
+        return view('home', ['sales' => $salesId]);
     }
 
     /**
@@ -24,54 +29,49 @@ class SalesController extends Controller
     public function show()
     {
         $sales = Auth::user();
-        return view('profil', ['sales' => $sales]);
+        return view('profile', compact('sales'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Sales $sales)
     {
-        $sales = Sales::find($id);
-        return view('sales.edit', compact('sales'));
+        return view('edit-profile', compact('sales'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Sales $sales)
     {
         $request->validate([
-            'name' => 'required|max:50',
+            'nama_sales' => 'required|max:50',
         ]);
 
-        $sales = Sales::find($id);
+        $sales->update($request->only('nama_sales'));
 
-        if ($sales) {
-            $sales->name = $request->input('name');
-            $sales->save();
-            return redirect()->route('sales.edit', $id)->with('success', 'Profile berhasil diperbarui!');
-        } else {
-            return redirect()->route('sales.index')->with('error', 'Data tidak ditemukan.');
-        }
+        return redirect()->route('profiles')->with('success', 'Data berhasil diubah!');
     }
 
+    /**
+     * Generate a bar chart of customers per month.
+     */
     public function barChart()
     {
-        $idSales = Auth::id(); // Mengambil ID sales dari pengguna yang sedang login
+        $id_sales = Auth::id();
 
-        // Ambil data customer berdasarkan ID sales
-        $sales = DB::table('customer')
+        $salesData = DB::table('customer')
             ->selectRaw('MONTHNAME(tgl_gabung) as month, COUNT(*) as total')
-            ->where('id_sales', $idSales) // Filter berdasarkan ID sales
+            ->where('id_sales', $id_sales)
             ->groupBy('month')
             ->orderByRaw('MONTH(tgl_gabung)')
             ->pluck('total', 'month');
 
         return view('home', [
-            'sales' => $sales,
-            'months' => $sales->keys(),
-            'customerCounts' => $sales->values()
+            'sales' => $salesData,
+            'months' => $salesData->keys(),
+            'customerCounts' => $salesData->values(),
         ]);
     }
 }

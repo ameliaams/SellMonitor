@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     {{ __('Edit Data Customer') }}
-                    <a href="{{ route('customer.index') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ route('customers.index') }}" class="btn btn-secondary">Kembali</a>
                 </div>
 
                 <div class="card-body">
@@ -17,7 +17,7 @@
                     </div>
                     @endif
 
-                    <form method="POST" action="{{ route('customer.update', $customer->id) }}">
+                    <form method="POST" action="{{ route('customers.update', $customer->id) }}">
                         @csrf
                         @method('PUT')
 

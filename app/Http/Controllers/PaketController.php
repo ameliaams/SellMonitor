@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\PaketLayanan;
+use Illuminate\Http\Request;
 
 class PaketLayananController extends Controller
 {
@@ -32,10 +32,10 @@ class PaketLayananController extends Controller
         $request->validate([
             'nama_paket' => 'required|max:50',
             'deskripsi' => 'required',
-            'harga' => 'required|max:50',
+            'harga' => 'required|numeric',
         ]);
 
-        PaketLayanan::create($request->all());
+        PaketLayanan::create($request->only(['nama_paket', 'deskripsi', 'harga']));
 
         return redirect()->route('paket.index')->with('success', 'Data berhasil ditambah!');
     }
@@ -64,12 +64,12 @@ class PaketLayananController extends Controller
         $request->validate([
             'nama_paket' => 'required|max:50',
             'deskripsi' => 'required',
-            'harga' => 'required|max:50',
+            'harga' => 'required|numeric',
         ]);
 
-        $paketLayanan->update($request->all());
+        $paketLayanan->update($request->only(['nama_paket', 'deskripsi', 'harga']));
 
-        return redirect()->route('paket.index')->with('success', '  Data berhasil diubah!');
+        return redirect()->route('paket.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**

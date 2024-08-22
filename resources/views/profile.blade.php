@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{ __('Profil') }}</div>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    {{ __('Profil') }}
+                    <a href="{{ route('profiles.edit', $sales->id) }}" class="btn btn-primary">Edit</a>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))

@@ -21,14 +21,20 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/profil', [SalesController::class, 'show'])->name('profil');
-Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
-Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
-Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
-Route::get('/customer/{customer}', [CustomerController::class, 'show'])->name('customer.show');
-Route::get('/customer/{customer}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
-Route::put('/customer/{customer}', [CustomerController::class, 'update'])->name('customer.update');
-Route::delete('/customer/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
 Route::get('/home', [SalesController::class, 'barChart'])->name('home');
+
+//data customer
+Route::put('/profiles/{sales}', [SalesController::class, 'update'])->name('profiles.update');
+Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
+Route::get('/customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+Route::get('/customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+Route::put('/customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+
+//data sales
+Route::get('/profiles', [SalesController::class, 'show'])->name('profiles');
+Route::get('profiles/{sales}/edit', [SalesController::class, 'edit'])->name('profiles.edit');
+Route::put('profiles/{sales}', [SalesController::class, 'update'])->name('profiles.update');
+

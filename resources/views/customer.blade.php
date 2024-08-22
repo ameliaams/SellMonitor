@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     {{ __('Data Customer') }}
-                    <a href="{{ route('customer.create') }}" class="btn btn-primary">Tambah Customer</a>
+                    <a href="{{ route('customers.create') }}" class="btn btn-primary">Tambah Customer</a>
                 </div>
 
 
@@ -37,9 +37,9 @@
                                 <td>{{ $cust->paketLayanan->nama_paket }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('customer.edit', $cust->id) }}" class="btn btn-warning me-2">Edit</a>
+                                        <a href="{{ route('customers.edit', $cust->id) }}" class="btn btn-warning me-2">Edit</a>
 
-                                        <form action="{{ route('customer.destroy', $cust->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                        <form action="{{ route('customers.destroy', $cust->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Hapus</button>
